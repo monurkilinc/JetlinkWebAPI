@@ -1,6 +1,7 @@
 ﻿using JetlinkWebAPI.Application.DTOs;
 using JetlinkWebAPI.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 namespace JetlinkWebAPI.Controllers
 {
@@ -17,9 +18,9 @@ namespace JetlinkWebAPI.Controllers
         [HttpPost]
         public ActionResult<UserTextModel> ConvertText(UserTextModel userTextModel)
         {
-            if(!ModelState.IsValid)
+            if (userTextModel == null || string.IsNullOrWhiteSpace(userTextModel.Text))
             {
-                return BadRequest(ModelState);
+                return BadRequest("Invalid input");
             }
             var result = _textConService.ConvertWordToNumber(userTextModel);
             return Ok(result);
